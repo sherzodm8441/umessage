@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Navbar from './Navbar'
 
-const Sidebar = (props) => {
-    let sidebarClass = props.isOpen ? "sidebar open" : "sidebar";  
+const Sidebar = () => {
+    const [isOpen, setIsOpen] = useState(true);
+
+    function handleIsOpen(){
+        setIsOpen(!isOpen);
+    }
+
+    let sidebarClass = isOpen ? "sidebar open" : "sidebar";  
   return (
     <div className={sidebarClass}>
-        <div>This is the sidebar</div>
-
         {/* sidebar toggle */}
-        <button onClick={props.handleIsOpen} className="sidebar-toggle">
-          {props.isOpen ? '<' : '>'}
+        <button onClick={handleIsOpen} className="sidebar-toggle">
+          {isOpen ? '<' : '>'}
         </button>
+
+        <Navbar />
       </div>
   )
 }

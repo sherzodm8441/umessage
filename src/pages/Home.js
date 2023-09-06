@@ -1,12 +1,14 @@
 import React from 'react'
 import ChatWindow from '../components/ChatWindow'
-import SidebarSlider from '../components/SidebarSlider'
+import Sidebar from '../components/Sidebar'
 
 const Home = () => {
   return (
     <div className='home'>
-        <SidebarSlider />
-        <ChatWindow />
+        <div className='container'>
+            <Sidebar />
+            <ChatWindow />
+        </div>
     </div>
   )
 }
