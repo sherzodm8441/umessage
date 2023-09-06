@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar'
 import Search from './Search'
+import Chats from './Chats'
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -19,6 +20,7 @@ const Sidebar = () => {
 
         <Navbar />
         <Search />
+        <Chats />
       </div>
   )
 }
