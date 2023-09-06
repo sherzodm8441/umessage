@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from './Navbar'
+import Search from './Search'
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(true);
@@ -17,6 +18,7 @@ const Sidebar = () => {
         </button>
 
         <Navbar />
+        <Search />
       </div>
   )
 }

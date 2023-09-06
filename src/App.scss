@@ -3,12 +3,12 @@
 }
 
 .sidebar {
-  position: absolute;
-  left: -250px;
-  height: 100%;
-  width: 250px;
+  // position: absolute;
+  left: -300px;
+  // height: 85%;
+  width: 300px;
   transition: left 0.3s ease-in-out;
-  background-color: rgb(58, 53, 56);
+  // background-color: rgb(58, 53, 56);
   z-index: 1;
   border: 1px solid black;
   border-radius: 15px;
@@ -112,6 +112,51 @@
     width: 65%;
     height: 85%;
     display: flex;
+    overflow: hidden;
+
+    .sidebar{
+      position: relative;
+      display: flex;
+      background-color: #49949e;
+      // overflow: hidden;
+
+      .navbar{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding: 10px;
+        justify-content: space-between;
+        background-color: #265a61;
+        width: 100%;
+        color: aqua;
+
+        .logo{
+          font-weight: bold;
+        }
+
+        .user{
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+          img{
+            background-color: white;
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          button{
+            background-color: #49949e;
+            color:aqua;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+          }
+        }
+      }
+    }
   }
 }
 
