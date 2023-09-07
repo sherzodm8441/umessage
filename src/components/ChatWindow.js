@@ -1,6 +1,8 @@
 import React from 'react'
 import Camera from '../img/camera.png'
 import More from '../img/more.png'
+import Messages from './Messages'
+import Input from './Input'
 
 const ChatWindow = () => {
   return (
@@ -15,6 +17,8 @@ const ChatWindow = () => {
           <img src={More} />
         </div>
       </div>
+      <Messages />
+      <Input />
     </div>
   )
 }
