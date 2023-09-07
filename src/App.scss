@@ -99,16 +99,18 @@
 
     .sidebar{
       position: relative;
+      // position:absolute;
       // display: flex;
       background-color: #49949e;
       // overflow: hidden;
       // position: absolute;
-      left: -300px;
-      // height: 100vh;
+      // left: -300px;
+      margin-left: -300px;
+      height: 100%;
       width: 300px;
-      transition: left 0.3s ease-in-out;
+      transition: margin-left 0.3s ease-in-out;
       // background-color: rgb(58, 53, 56);
-      z-index: 1;
+      // z-index: 200;
       border: 1px solid black;
       border-radius: 15px;
       // width: fit-content;
@@ -211,7 +213,48 @@
     }
 
     .sidebar.open {
-      left: 0;
+      // left: 0;
+      margin-left: 0;
+      // display: none;
+    }
+
+    .chatWindow{
+      width: 100%;
+      // z-index: 1;
+      .chatInfo{
+        height: 50px;
+        background-color: #49949e;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        padding-left: 15px;
+        color: #EEEADE;
+        margin: 0;
+
+        .userInfo{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+        }
+
+        .chatIcons{
+          display: flex;
+          gap: 10px;
+
+          img{
+            height: 24px;
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
 }
@@ -231,7 +274,8 @@
       .sidebar {
         //  width: 250px;
         //  left: -250px;
-         height: 100%;
+        //  height: 100%;
+        position: absolute;
     }
     }
   }

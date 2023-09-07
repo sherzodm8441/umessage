@@ -4,7 +4,7 @@ import Search from './Search'
 import Chats from './Chats'
 
 const Sidebar = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     function handleIsOpen(){
         setIsOpen(!isOpen);
