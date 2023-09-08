@@ -4,9 +4,12 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [error, SetError] = useState(false)
+
+  const navigate = useNavigate();
 
   async function handleSubmit(event){
     event.preventDefault();
@@ -46,6 +49,8 @@ const Register = () => {
 
             //collection container for user's (self) chats (sidebar user chats)
             await setDoc(doc(db, 'userChats', res.user.uid), {});
+
+            navigate("/");
           });
         }
       );
