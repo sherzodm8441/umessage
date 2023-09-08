@@ -7,8 +7,8 @@ import Login from './pages/Login';
 function App() {
   return (
     <div className="App">
-      <Home />
-      {/* <Register /> */}
+      {/* <Home /> */}
+      <Register />
       {/* <Login /> */}
     </div>
   );
