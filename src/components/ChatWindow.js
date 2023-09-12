@@ -3,14 +3,19 @@ import Camera from '../img/camera.png'
 import More from '../img/more.png'
 import Messages from './Messages'
 import Input from './Input'
+import { useContext } from 'react'
+import { ChatContext } from '../contexts/ChatContext'
+
 
 const ChatWindow = () => {
+  const { data } = useContext(ChatContext);
+
   return (
     <div className='chatWindow'>
       <div className='chatInfo'>
         <div className='userInfo'>
-          <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg"/>
-          <span>Display name</span>
+          <img src={data.user.photoUrl} alt=""/>
+          <span>{data.user.displayName}</span>
         </div>
         <div className='chatIcons'>
           <img src={Camera} />

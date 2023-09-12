@@ -4,13 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './contexts/AuthContext';
+import { ChatContextProvider } from './contexts/ChatContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <AuthContextProvider>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <ChatContextProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </ChatContextProvider>
   </AuthContextProvider>
 );
 

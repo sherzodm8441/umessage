@@ -1,43 +1,43 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react';
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from '../firebase';
+import { AuthContext } from '../contexts/AuthContext';
+import { ChatContext } from '../contexts/ChatContext';
 
 const Chats = () => {
+    const [chats, SetChats] = useState({});
+
+    const {currentUser} = useContext(AuthContext);
+    const { dispatch } = useContext(ChatContext);
+
+    useEffect(()=>{
+        const getChats = () => {const unsubscribe = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+            SetChats(doc.data());
+        });
+
+        return () => {
+            unsubscribe();
+        }}
+
+        currentUser.uid && getChats();
+    },[currentUser.uid])
+
+    function handleSelect(info){
+        dispatch({type: "CHANGE_USER", payload: info})
+    }
+
   return (
     <div className='chats'>
-        <div className='userChat'>
-            <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg" />
-            <div className='userChatInfo'>
-                <span>Display Name</span>
-                <p>Hey there</p>
+        {Object.entries(chats)?.sort((a,b) => b[1].date - a[1].date).map((chat)=>(
+            <div className='userChat' key={chat[0]} onClick={()=>(handleSelect(chat[1].userInfo))}>
+                <img src={chat[1].userInfo.photoUrl} />
+                {/* <div style={{borderRadius: "50%", border:"1px solid black", padding: "15px"}}>H</div> */}
+                <div className='userChatInfo'>
+                    <span >{chat[1].userInfo.displayName}</span>
+                    <p>{chat[1].lastMessage?.message}</p>
+                </div>
             </div>
-        </div>
-        <div className='userChat'>
-            <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg" />
-            <div className='userChatInfo'>
-                <span>Display Name</span>
-                <p>Hey there</p>
-            </div>
-        </div>
-        <div className='userChat'>
-            <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg" />
-            <div className='userChatInfo'>
-                <span>Display Name</span>
-                <p>Hey there</p>
-            </div>
-        </div>
-        <div className='userChat'>
-            <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg" />
-            <div className='userChatInfo'>
-                <span>Display Name</span>
-                <p>Hey there</p>
-            </div>
-        </div>
-        <div className='userChat'>
-            <img src="https://imgv3.fotor.com/images/cover-photo-image/a-beautiful-girl-with-gray-hair-and-lucxy-neckless-generated-by-Fotor-AI.jpg" />
-            <div className='userChatInfo'>
-                <span>Display Name</span>
-                <p>Hey there</p>
-            </div>
-        </div>
+        ))}
     </div>
   )
 }
