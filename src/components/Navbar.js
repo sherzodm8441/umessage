@@ -9,7 +9,8 @@ const Navbar = () => {
     <div className='navbar'>
         <span className='logo'>uMessage</span>
         <div className='user'>
-            <img src={currentUser.photoUrl} />
+            {currentUser.photoUrl ? <img src={currentUser.photoUrl} /> :
+            <div className="userInitial">{currentUser.displayName?.[0].toUpperCase()}</div>}
             <span>{currentUser.displayName}</span>
             <button onClick={()=>signOut(auth)}>Logout</button>
         </div>

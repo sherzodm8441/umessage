@@ -64,13 +64,13 @@ const Input = () => {
 
   return (
     <div className='input'>
-        <input type='text' placeholder='Type a message' onChange={(e)=>SetMessage(e.target.value)} value={message}/>
+        {<input type='text' disabled={data.chatId === "null" ? true : false} placeholder='Type a message' onChange={(e)=>SetMessage(e.target.value)} value={message}/>}
         <div className='send'>
             <input style={{display: 'none'}} type="file" id='file' onChange={(e)=>SetImg(e.target.files[0])}/>
             <label htmlFor='file'>
                 <img src={AddImage} />
             </label>
-            <button onClick={handleSend}>Send</button>
+            <button onClick={handleSend} disabled={data.chatId === "null" ? true : false}>Send</button>
         </div>
     </div>
   )

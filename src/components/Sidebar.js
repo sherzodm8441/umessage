@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div className={sidebarClass}>
         {/* sidebar toggle */}
         <button onClick={handleIsOpen} className="sidebar-toggle">
-          {isOpen ? '<' : '>'}
+          {isOpen ? 'X' : '>'}
         </button>
 
         <Navbar />

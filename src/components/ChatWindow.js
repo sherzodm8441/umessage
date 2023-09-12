@@ -14,7 +14,8 @@ const ChatWindow = () => {
     <div className='chatWindow'>
       <div className='chatInfo'>
         <div className='userInfo'>
-          <img src={data.user.photoUrl} alt=""/>
+          {data.user.photoUrl ? <img src={data.user.photoUrl} alt=""/> :
+          <div className="userInitial">{data.user.displayName?.[0].toUpperCase()}</div>}
           <span>{data.user.displayName}</span>
         </div>
         <div className='chatIcons'>

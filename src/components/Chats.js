@@ -30,8 +30,8 @@ const Chats = () => {
     <div className='chats'>
         {Object.entries(chats)?.sort((a,b) => b[1].date - a[1].date).map((chat)=>(
             <div className='userChat' key={chat[0]} onClick={()=>(handleSelect(chat[1].userInfo))}>
-                <img src={chat[1].userInfo.photoUrl} />
-                {/* <div style={{borderRadius: "50%", border:"1px solid black", padding: "15px"}}>H</div> */}
+                {chat[1].userInfo.photoUrl ? <img src={chat[1].userInfo.photoUrl} /> :
+                <div className="userInitial">{chat[1].userInfo.displayName[0].toUpperCase()}</div>}
                 <div className='userChatInfo'>
                     <span >{chat[1].userInfo.displayName}</span>
                     <p>{chat[1].lastMessage?.message}</p>

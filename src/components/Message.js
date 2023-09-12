@@ -19,7 +19,8 @@ const Message = ({message}) => {
   return (
     <div ref={ref} className={`message ${message.senderId === currentUser.uid && 'self'}`}>
       <div className='messageInfo'>
-        <img src={message.senderId === currentUser.uid ? currentUser.photoUrl : data.user.photoUrl}/>
+        {((message.senderId === currentUser.uid) ? currentUser.photoUrl : data.user.photoUrl) ? <img src={message.senderId === currentUser.uid ? currentUser.photoUrl : data.user.photoUrl}/> :
+        <div className="userInitial">{message.senderId === currentUser.uid ? currentUser.displayName?.[0].toUpperCase() : data.user.displayName?.[0].toUpperCase()}</div>}
         <span>12:09</span>
       </div>
       <div className='messageContent'>
