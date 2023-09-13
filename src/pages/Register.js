@@ -18,20 +18,15 @@ const Register = () => {
     const password = event.target[2].value;
     const file = event.target[3].files[0];
 
-    console.log(displayName,email, password)
-
   
     try {
       SetError(false);
       const res = await createUserWithEmailAndPassword(auth, email, password);
 
-      console.log(res);
-
       const storageRef = ref(storage, displayName);
     
         await uploadBytesResumable(storageRef, file).then(() => {
           getDownloadURL(storageRef).then( async (downloadURL) => {
-            // console.log('File available at', downloadURL);
 
             //self, user's profile data for when logged in
             await updateProfile(res.user,{
@@ -57,7 +52,6 @@ const Register = () => {
       
 
     } catch (error) {
-      console.log(error);
       SetError(true);
     }
       

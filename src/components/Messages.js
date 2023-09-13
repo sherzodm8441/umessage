@@ -13,7 +13,6 @@ const Messages = () => {
     const unsubscribe = onSnapshot(doc(db, "chats", chatContext.data.chatId), (doc) => {
       if(doc.exists()){
         setMessages(doc.data().messages);
-        console.log(messages);
       }
 
       
@@ -24,12 +23,10 @@ const Messages = () => {
     }
   },[chatContext.data.chatId]);
 
-  
-
   return (
     <div className='messages'>
       {messages.map((message)=>(
-        <Message message={message}/>
+        <Message message={message} key={message.id}/>
       ))}
     </div>
   )
