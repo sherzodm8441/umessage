@@ -25,6 +25,19 @@ const ChatWindow = () => {
       </div>
       <Messages />
       <Input />
+      <div className='modal'>
+        <div className='modalWrapper'>
+          <div className='videos'>
+            <video className='peerVideo' />
+            <video className='selfVideo' />
+          </div>
+          <div className='controls'>
+            <button>Call</button>
+            <button>Answer</button>
+            <button>End</button>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
