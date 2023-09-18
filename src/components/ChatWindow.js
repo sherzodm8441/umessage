@@ -6,10 +6,15 @@ import Input from './Input'
 import { useContext } from 'react'
 import { ChatContext } from '../contexts/ChatContext'
 
-import { SocketVideoContext } from '../contexts/SocketVideoContext'
+import { SocketVideoContext, socket } from '../contexts/SocketVideoContext'
+import { AuthContext } from '../contexts/AuthContext'
+// import io from 'socket.io-client';
+// import Peer from 'simple-peer';
 
 
 const ChatWindow = () => {
+  const { data } = useContext(ChatContext);
+
 
   const { 
     myId, 
@@ -22,17 +27,16 @@ const ChatWindow = () => {
     call, 
     callUser,
     leaveCall,
-    setStream
+    setStream,
   } = useContext(SocketVideoContext)
 
-
-  const { data } = useContext(ChatContext);
 
   const [idToCall, setIdToCall] = useState('');
 
   const [modalOpen, setModalOpen] = useState(false);
 
   console.log("new id",myId)
+  // console.log(currentUser)
 
   function handleModal(){
     setModalOpen(!modalOpen);
@@ -41,6 +45,7 @@ const ChatWindow = () => {
   useEffect(()=>{
     if(!modalOpen){
       stream?.getVideoTracks()[0].stop();
+      stream?.getAudioTracks()[0].stop();
     }else{
       navigator.mediaDevices.getUserMedia({ video: true, audio: true}).then((currentStream) => {
         setStream(currentStream);
@@ -50,7 +55,7 @@ const ChatWindow = () => {
           }
         
     }).catch((error) => {
-        console.log(error);
+        console.log(error); 
     })
     }
   },[modalOpen])
@@ -71,7 +76,7 @@ const ChatWindow = () => {
       <Messages />
       <Input />
 
-      {modalOpen && <div className='modal'> 
+      {(modalOpen || call.recievingCall || callAccepted) && !callEnded && <div className='modal'> 
         <div className='modalWrapper'>
           <button className="closeButton" onClick={handleModal}>X</button>
           <div className='videos'>
@@ -79,8 +84,8 @@ const ChatWindow = () => {
             {<video playsInline className='myVideo' ref={myVideoRef} autoPlay={true} muted/>}
           </div>
           <div className='controls'>
-            <input type='text' placeholder='enter id' value={idToCall} onChange={(e)=>setIdToCall(e.target.value)}/>
-            {<span>{myId}</span>}
+            {/* <input type='text' placeholder='enter id' value={idToCall} onChange={(e)=>setIdToCall(e.target.value)}/> */}
+            {/* {<span>{myId}</span>} */}
             <button onClick={()=> callUser(idToCall)}>Call</button>
             {call.recievingCall && !callAccepted && <button onClick={answerCall}>Answer</button>}
             <button onClick={leaveCall}>End</button>

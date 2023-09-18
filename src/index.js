@@ -8,7 +8,7 @@ import App from './App';
 // import reportWebVitals from './reportWebVitals';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { ChatContextProvider } from './contexts/ChatContext';
-import { SocketVideoContextProvider } from './contexts/SocketVideoContext';
+// import { SocketVideoContextProvider } from './contexts/SocketVideoContext';
 
 //need this for peerVideRef.current.destroy() to work
 window.global = window;
@@ -19,16 +19,18 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   
     <AuthContextProvider>
+      {/* <SocketVideoContextProvider> */}
     <ChatContextProvider>
       
         {/* <React.StrictMode> */}
-        <SocketVideoContextProvider>
+        
           <App />
-        </SocketVideoContextProvider>
+        
           
         {/* </React.StrictMode> */}
       
     </ChatContextProvider>
+    {/* </SocketVideoContextProvider> */}
   </AuthContextProvider>
 );
 

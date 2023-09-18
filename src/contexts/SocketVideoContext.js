@@ -1,13 +1,20 @@
 import io from 'socket.io-client';
 import Peer from 'simple-peer';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
+import { AuthContext } from './AuthContext';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
+import { ChatContext } from './ChatContext';
 
 
 export const SocketVideoContext = createContext();
 
-const socket = io('http://localhost:3001');
+export const socket = io('http://localhost:3001');
 
 export const SocketVideoContextProvider = ({ children }) => {
+    const { currentUser, isLoading } = useContext(AuthContext);
+    const { data: dat } = useContext(ChatContext);
+
     const [stream, setStream] = useState(null);
     const [myId, setMyId] = useState('');
     const [call, setCall] = useState({});
@@ -19,6 +26,8 @@ export const SocketVideoContextProvider = ({ children }) => {
     const peerVideoRef = useRef();
     const connectionRef = useRef();
 
+    // const [use, setUse] = useState({})
+
     useEffect(()=> {
         const getMedia = () => {
             navigator.mediaDevices.getUserMedia({ video: true, audio: true}).then((currentStream) => {
@@ -27,14 +36,6 @@ export const SocketVideoContextProvider = ({ children }) => {
                 if(myVideoRef.current){
                     
                     myVideoRef.current.srcObject = currentStream;
-                    // let playpromise = myVideoRef.current.play();
-                    // if(playpromise !== undefined){
-                    //     playpromise.then(()=>{
-
-                    //     }).catch(err=>{
-                    //         console.log(err)
-                    //     })
-                    // }
                   }
                 
             }).catch((error) => {
@@ -43,14 +44,37 @@ export const SocketVideoContextProvider = ({ children }) => {
         }
         
         // getMedia();
+        console.log('mount')
 
         socket.on('id', (id) => setMyId(id));
+        
+
+        
 
         socket.on('callUser', ({ from, name: callerName, signal }) => {
+            console.log("call from", from)
             setCall({ recievingCall: true, name: callerName, from, signal});
         });
 
+        return ()=>{
+            console.log( 'unmount')
+        }
     }, []);
+
+
+    useEffect(()=>{
+        
+            console.log(currentUser)
+            socket.emit('userCustomId', currentUser.uid);
+
+            socket.on('callUser', ({ from, name: callerName, signal }) => {
+                console.log("call from", from)
+                setCall({ recievingCall: true, name: callerName, from, signal});
+            });
+    
+    }, [currentUser.uid, isLoading]);
+
+    console.log(currentUser)
 
     function answerCall(){
         setCallAccepted(true);
@@ -74,7 +98,7 @@ export const SocketVideoContextProvider = ({ children }) => {
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
         peer.on('signal', (data) => {
-            socket.emit('callUser', { userToCall: id, signalData: data, from: myId, name });
+            socket.emit('callUser', { userToCall: dat.user.uid, signalData: data, from: currentUser.uid, name });
         });
 
         peer.on('stream', (currentStream) => {
@@ -111,7 +135,7 @@ export const SocketVideoContextProvider = ({ children }) => {
             name,
             setName,
             myId,
-            setStream
+            setStream,
         }}>
             {children}
         </SocketVideoContext.Provider>
