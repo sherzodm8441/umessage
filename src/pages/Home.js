@@ -1,11 +1,9 @@
-import React, { useContext, useEffect } from 'react'
+import React from 'react'
 import ChatWindow from '../components/ChatWindow'
 import Sidebar from '../components/Sidebar'
-import { AuthContext } from '../contexts/AuthContext'
 import { SocketVideoContextProvider } from '../contexts/SocketVideoContext';
 
 const Home = () => {
-  const {currentUser, isLoading} = useContext(AuthContext);
   return (
     <div className='home'>
         <div className='container'>

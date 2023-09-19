@@ -2,14 +2,13 @@ import io from 'socket.io-client';
 import Peer from 'simple-peer';
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../firebase';
 import { ChatContext } from './ChatContext';
 
 
 export const SocketVideoContext = createContext();
 
-export const socket = io('http://localhost:3001');
+// export const socket = io('http://localhost:3001');
+export const socket = io('https://umessage-backend.onrender.com/');
 
 export const SocketVideoContextProvider = ({ children }) => {
     const { currentUser, isLoading } = useContext(AuthContext);
@@ -26,7 +25,6 @@ export const SocketVideoContextProvider = ({ children }) => {
     const peerVideoRef = useRef();
     const connectionRef = useRef();
 
-    // const [use, setUse] = useState({})
 
     useEffect(()=> {
         const getMedia = () => {
@@ -44,15 +42,10 @@ export const SocketVideoContextProvider = ({ children }) => {
         }
         
         // getMedia();
-        console.log('mount')
 
         socket.on('id', (id) => setMyId(id));
-        
-
-        
 
         socket.on('callUser', ({ from, name: callerName, signal }) => {
-            console.log("call from", from)
             setCall({ recievingCall: true, name: callerName, from, signal});
         });
 
@@ -64,17 +57,14 @@ export const SocketVideoContextProvider = ({ children }) => {
 
     useEffect(()=>{
         
-            console.log(currentUser)
             socket.emit('userCustomId', currentUser.uid);
 
             socket.on('callUser', ({ from, name: callerName, signal }) => {
-                console.log("call from", from)
                 setCall({ recievingCall: true, name: callerName, from, signal});
             });
     
     }, [currentUser.uid, isLoading]);
 
-    console.log(currentUser)
 
     function answerCall(){
         setCallAccepted(true);

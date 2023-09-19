@@ -35,8 +35,6 @@ const ChatWindow = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  console.log("new id",myId)
-  // console.log(currentUser)
 
   function handleModal(){
     setModalOpen(!modalOpen);
@@ -60,13 +58,26 @@ const ChatWindow = () => {
     }
   },[modalOpen])
 
+  useEffect(()=>{
+    if(call.recievingCall){
+      setModalOpen(true);
+    }
+    
+  },[call.recievingCall]);
+
+  const handleLeaveCall = () =>{
+    leaveCall();
+
+    window.location.reload();
+  }
+
   return (
     <div className='chatWindow'>
       <div className='chatInfo'>
         <div className='userInfo'>
           {data.user.photoUrl ? <img src={data.user.photoUrl} alt=""/> :
           <div className="userInitial">{data.user.displayName?.[0].toUpperCase()}</div>}
-          <span>{data.user.displayName}</span>
+          <span>{data.user.uid ? data.user.displayName : 'Select chat to text'}</span>
         </div>
         <div className='chatIcons'>
           {data.user.uid && <img  onClick={handleModal} src={Camera} />}
@@ -76,7 +87,7 @@ const ChatWindow = () => {
       <Messages />
       <Input />
 
-      {(modalOpen || call.recievingCall || callAccepted) && !callEnded && <div className='modal'> 
+      {modalOpen &&  <div className='modal'> 
         <div className='modalWrapper'>
           <button className="closeButton" onClick={handleModal}>X</button>
           <div className='videos'>
@@ -88,7 +99,7 @@ const ChatWindow = () => {
             {/* {<span>{myId}</span>} */}
             <button onClick={()=> callUser(idToCall)}>Call</button>
             {call.recievingCall && !callAccepted && <button onClick={answerCall}>Answer</button>}
-            <button onClick={leaveCall}>End</button>
+            <button onClick={handleLeaveCall}>End</button>
           </div>
         </div>
       </div> }
